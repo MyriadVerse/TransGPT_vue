@@ -1,5 +1,5 @@
 // Main interface
-<template>
+<template> 
   // Height fills the entire screen
   <div class="flex flex-col h-screen">
     // Fixed navigation bar at the top of the page, including title and settings buttons
