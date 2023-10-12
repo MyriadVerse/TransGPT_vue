@@ -2,11 +2,10 @@
   "extends": "@vue/tsconfig/tsconfig.node.json",
   "include": ["vite.config.*", "vitest.config.*", "cypress.config.*"],
   "compilerOptions": {
-
+    // The following three lines are used to ignore vscode errors
     "preserveValueImports": false,
     "importsNotUsedAsValues": "remove",
     "verbatimModuleSyntax": true,
-    
     "composite": true,
     "types": ["node"]
   }

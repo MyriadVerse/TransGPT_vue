@@ -3,11 +3,10 @@
   
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
   "compilerOptions": {
-
+    // The following three lines are used to ignore vscode errors
     "preserveValueImports": false,
     "importsNotUsedAsValues": "remove",
     "verbatimModuleSyntax": true,
-    
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
