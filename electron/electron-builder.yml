@@ -1,5 +1,6 @@
-appId: com.chatgpt.app
-productName: ChatGPT
+# Add information required for electron packaging
+appId: com.transgpt.app
+productName: TransGPT
 directories:
   output: ../electron-dist
 mac:

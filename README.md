@@ -2,8 +2,6 @@
 
 使用 Vue3 + Typescript + Tailwind CSS 框架，调用 OpenAI 的 `gpt-3.5-turbo` 模型 API 实现的简单聊天对话，支持连续对话。
 
-![preview](img/preview.gif)
-
 ## 快速开始
 
 >注意：本项目没有使用任何代理，API 在前端发送请求，能否连通基于你当前浏览器的所处的网络环境。如果你需要在服务端发送 API 请求的 ChatGPT，可以查看我的另一个项目 [chatgpt-nuxt](https://github.com/lianginx/chatgpt-nuxt)，点击这里 [在线体验](http://ai.in-x.cc/)。
