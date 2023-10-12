@@ -1,3 +1,4 @@
+// Markdown rendering and highlighting
 import Markdown from "markdown-it";
 import highlight from "highlight.js";
 
@@ -6,8 +7,11 @@ const mdOptions: Markdown.Options = {
   typographer: true,
   breaks: true,
   langPrefix: "language-",
-  // 代码高亮
+
+  // code highlighting
   highlight(str, lang) {
+    // str is the code string to be highlighted
+    // lang is the language type of the code
     if (lang && highlight.getLanguage(lang)) {
       try {
         return (
@@ -21,4 +25,5 @@ const mdOptions: Markdown.Options = {
   },
 };
 
+// Create a Markdown renderer instance
 export const md = new Markdown(mdOptions);

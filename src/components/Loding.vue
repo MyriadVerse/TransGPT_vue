@@ -1,3 +1,4 @@
+// This component creates a simple loading animation
 <template>
   <div class="com__box">
     <div class="loading">

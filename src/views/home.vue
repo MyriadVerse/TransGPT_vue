@@ -1,11 +1,14 @@
+// Main interface
 <template>
+  // Height fills the entire screen
   <div class="flex flex-col h-screen">
+    // Fixed navigation bar at the top of the page, including title and settings buttons
     <div
       class="flex flex-nowrap fixed w-full items-baseline top-0 px-6 py-4 bg-gray-100"
     >
-      <div class="text-2xl font-bold">ChatGPT</div>
+      <div class="text-2xl font-bold">TransGPT</div>
       <div class="ml-4 text-sm text-gray-500">
-        基于 OpenAI 的 ChatGPT 自然语言模型人工智能对话
+        基于 ChatGPT 的辅助翻译系统
       </div>
       <div
         class="ml-auto px-3 py-2 text-sm cursor-pointer hover:bg-white rounded-md"
@@ -70,7 +73,7 @@ let isTalking = ref(false);
 let messageContent = ref("");
 const chatListDom = ref<HTMLDivElement>();
 const decoder = new TextDecoder("utf-8");
-const roleAlias = { user: "ME", assistant: "ChatGPT", system: "System" };
+const roleAlias = { user: "ME", assistant: "TransGPT", system: "System" };
 const messageList = ref<ChatMessage[]>([
   {
     role: "system",
@@ -78,15 +81,7 @@ const messageList = ref<ChatMessage[]>([
   },
   {
     role: "assistant",
-    content: `你好，我是AI语言模型，我可以提供一些常用服务和信息，例如：
-
-1. 翻译：我可以把中文翻译成英文，英文翻译成中文，还有其他一些语言翻译，比如法语、日语、西班牙语等。
-
-2. 咨询服务：如果你有任何问题需要咨询，例如健康、法律、投资等方面，我可以尽可能为你提供帮助。
-
-3. 闲聊：如果你感到寂寞或无聊，我们可以聊一些有趣的话题，以减轻你的压力。
-
-请告诉我你需要哪方面的帮助，我会根据你的需求给你提供相应的信息和建议。`,
+    content: `你好，我是AI语言模型，我可以提供一些常用服务和信息，例如，我可以进行一系列的翻译工作，并为你提供与被翻译内容相关的信息。请告诉我你需要哪方面的帮助，我会根据你的需求给你提供相应的信息和建议。`,
   },
 ]);
 

@@ -1,9 +1,12 @@
+// Create a copy button with an icon and interactive functionality
 <script setup lang="ts">
 import { Copy, Loading, CheckOne } from "@icon-park/vue-next";
 import type { Theme } from "@icon-park/vue-next/lib/runtime";
 import { ref } from "vue";
 
 const porps = defineProps<{ content: string }>();
+
+// Button configuration, including size, fill color and theme
 const btnConfig: {
   size: number;
   fill: string;
@@ -13,6 +16,8 @@ const btnConfig: {
   fill: "#999",
   theme: "outline",
 };
+
+// Prompt text in different button states
 const btnTips = {
   copy: "复制全文",
   loading: "",
@@ -21,6 +26,7 @@ const btnTips = {
 };
 const btnStatus = ref<"copy" | "loading" | "success" | "error">("copy");
 
+// Copy text to clipboard
 const copyToClipboard = (content: string = porps.content) => {
   btnStatus.value = "loading";
   navigator.clipboard
@@ -31,10 +37,11 @@ const copyToClipboard = (content: string = porps.content) => {
 };
 </script>
 
+// Display different icons based on button status
 <template>
   <div class="flex items-center cursor-pointer" @click="copyToClipboard()">
     <copy
-      v-show="btnStatus === 'copy'"
+      v-show="btnStatus === 'copy'" 
       :theme="btnConfig.theme"
       :size="btnConfig.size"
       :fill="btnConfig.fill"
@@ -64,6 +71,8 @@ const copyToClipboard = (content: string = porps.content) => {
   </div>
 </template>
 
+// Create rotation animation
+// Used to display when copying is in progress 
 <style scoped>
 @keyframes spin {
   0% {
@@ -74,7 +83,7 @@ const copyToClipboard = (content: string = porps.content) => {
   }
 }
 
-.rotate {
+.rotate { 
   animation: spin 2s linear infinite;
 }
 </style>
