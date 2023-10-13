@@ -97,15 +97,24 @@ const sendChatMessage = async (content: string = messageContent.value) => {
     if (messageList.value.length === 2) {
       messageList.value.pop();
     }
-    messageList.value.push({ role: "user", content });
+    // Supplementary prompts needed for translation function
+    // Disable translation when the user enters a question
+    const additionalContent = "。注意，这个命令只对你要说的下一句话生效，在后面的对话中，除非有再次声明，否则你不要遵守这一条prompt。在你说的下一句对话中，你需要做两件事：1、如果下面的句子是中文，直接为我翻译成英语，如果下面的句子是英文，直接为我翻译成中文，2、请从句子中挑选三个你认为用户最难以理解的专业名词（如专业术语、领域名称等），用中文给出进一步的解释。不能只翻译而不做出名词解释你需要处理的句子是：";
+    const userInput = messageContent.value;
+    const fullcontent = userInput.endsWith('?') ? userInput : additionalContent + userInput;
+
+    // Extra prompt provided for translation function does not appear on screen
+    messageList.value.push({ role: "user", content: userInput });
     clearMessageContent();
     messageList.value.push({ role: "assistant", content: "" });
 
-    const { body, status } = await chat(messageList.value, getAPIKey());
+    // 
+    const { body, status } = await chat([{ role: "user", content: fullcontent }], getAPIKey());
+    // const { body, status } = await chat(messageList.value, getAPIKey());
     if (body) {
       const reader = body.getReader();
       await readStream(reader, status);
-    }
+    }    
   } catch (error: any) {
     appendLastMessageContent(error);
   } finally {
