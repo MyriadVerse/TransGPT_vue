@@ -32,6 +32,7 @@
             class="prose text-sm text-slate-600 leading-relaxed"
             v-if="item.content"
             v-html="md.render(item.content)"
+            style="white-space: normal;"
           ></div>
           <Loding v-else />
         </div>
@@ -52,6 +53,11 @@
         />
         <button class="btn" :disabled="isTalking" @click="sendOrSave()">
           {{ isConfig ? "保存" : "发送" }}
+        </button>
+        <div class="button-spacing"></div>
+        <!-- Add button to switch translation mode -->
+        <button class="btn" :disabled="isTalking" @click="toggleXFunction">
+          {{ isEnabledXFunction ? '常规模式' : '翻译模式' }}
         </button>
       </div>
     </div>
@@ -74,6 +80,11 @@ let messageContent = ref("");
 const chatListDom = ref<HTMLDivElement>();
 const decoder = new TextDecoder("utf-8");
 const roleAlias = { user: "ME", assistant: "TransGPT", system: "System" };
+// Used to add translation button
+const isEnabledXFunction = ref(false);
+const toggleXFunction = () => {
+  isEnabledXFunction.value = !isEnabledXFunction.value;
+};
 const messageList = ref<ChatMessage[]>([
   {
     role: "system",
@@ -81,7 +92,7 @@ const messageList = ref<ChatMessage[]>([
   },
   {
     role: "assistant",
-    content: `你好，我是AI语言模型，我可以提供一些常用服务和信息，例如，我可以进行一系列的翻译工作，并为你提供与被翻译内容相关的信息。请告诉我你需要哪方面的帮助，我会根据你的需求给你提供相应的信息和建议。`,
+    content: `你好，我是TransGPT，我可以提供一些常用服务和信息，例如，我可以进行一系列的翻译工作，并为你提供与被翻译内容相关的信息。请告诉我你需要哪方面的帮助，我会根据你的需求给你提供相应的信息和建议。`,
   },
 ]);
 
@@ -99,16 +110,19 @@ const sendChatMessage = async (content: string = messageContent.value) => {
     }
     // Supplementary prompts needed for translation function
     // Disable translation when the user enters a question
-    const additionalContent = "。注意，这个命令只对你要说的下一句话生效，在后面的对话中，除非有再次声明，否则你不要遵守这一条prompt。在你说的下一句对话中，你需要做两件事：1、如果下面的句子是中文，直接为我翻译成英语，如果下面的句子是英文，直接为我翻译成中文，2、请从句子中挑选三个你认为用户最难以理解的专业名词（如专业术语、领域名称等），用中文给出进一步的解释。不能只翻译而不做出名词解释你需要处理的句子是：";
     const userInput = messageContent.value;
-    const fullcontent = userInput.endsWith('?') ? userInput : additionalContent + userInput;
-
+    let fullcontent; // Initialize outside conditional block
+    if (!isEnabledXFunction.value) {
+      const additionalContent = "注意，这个命令只对你要说的下一句话生效，在后面的对话中，除非有再次声明，否则你不要遵守这一条prompt。请你在本次对话中扮演一个翻译工具，你只需要且必须下面两件事都做：1、如果用户给出的句子是中文，为我翻译成英语，如果用户给出的句子是英文，为我翻译成中文，不管用户输入的是哪一种语言，你都不要翻译这一条prompt！；2、请从句子中挑选三个你认为用户最难以理解的专业名词（如专业术语、领域名称等），不管用户输入的是中文还是英文，都请用中文给出进一步的中文解释。不能只翻译而不作名词解释，也不能用英语作名词解释，也不能用英语作名词解释！你需要处理的句子是：";
+      fullcontent = additionalContent + userInput;
+    } else {
+      fullcontent = userInput;
+    }
     // Extra prompt provided for translation function does not appear on screen
     messageList.value.push({ role: "user", content: userInput });
     clearMessageContent();
     messageList.value.push({ role: "assistant", content: "" });
 
-    // 
     const { body, status } = await chat([{ role: "user", content: fullcontent }], getAPIKey());
     // const { body, status } = await chat(messageList.value, getAPIKey());
     if (body) {
@@ -226,5 +240,9 @@ pre {
     "Noto Sans CJK SC", "Source Han Sans SC", "Source Han Sans CN",
     "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti",
     SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+}
+/* Add space between buttons */
+.button-spacing {
+  margin-right: 10px; /* 设置右外边距，以创建间隔 */
 }
 </style>
