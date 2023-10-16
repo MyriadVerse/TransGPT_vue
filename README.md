@@ -1,4 +1,4 @@
-# chatgpt-vue
+# TransGPT
 
 使用 Vue3 + Typescript + Tailwind CSS 框架，调用 OpenAI 的 `gpt-3.5-turbo` 模型 API 实现的简单聊天对话，支持连续对话。
 
