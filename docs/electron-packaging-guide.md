@@ -6,11 +6,6 @@
 
 进入项目根目录开始调试/打包：
 
-```bash
-yarn e:dev    # 开发调试
-yarn e:build  # 打包
-```
-
 或者
 
 ```bash
